@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FallBack } from "./FallBack";
 import {
@@ -14,6 +14,9 @@ export const SearchTopUp = () => {
 
   const [activeState, setActiveState] = useState({});
   const activeIndex = useRef(-1);
+  const sortedDataLength = useRef(-1);
+  sortedDataLength.current = sortedData.length;
+
   const dispatch = useDispatch();
 
   const onMouseIverHandler = (ele) => {
@@ -27,29 +30,35 @@ export const SearchTopUp = () => {
     setActiveState(active);
   }, [active]);
 
-  const scrollChecker = (e, activeIndex, sortedData) => {
-    if (Object.keys(sortedData).length > 0 ) {
-      console.count();
-      if (e.keyCode === 38 ) {
-        activeIndex.current = activeIndex.current - 1;
-        if( activeIndex.current == -1) activeIndex.current = 0
-        dispatch(keyPressActiveSelect(activeIndex.current));
-      } else if (e.keyCode === 40) {
-        activeIndex.current = activeIndex.current + 1;
-        dispatch(keyPressActiveSelect(activeIndex.current));
-      }
+  const scrollChecker = useCallback((e, sortedData) => {
+    console.count();
+    if (e.keyCode === 38) {
+      console.log(
+        "up",
+        activeIndex.current,
+        sortedDataLength.current
+      );
+      activeIndex.current = activeIndex.current - 1;
+      if (activeIndex.current == -1) activeIndex.current = 0;
+      dispatch(keyPressActiveSelect(activeIndex.current));
+    } else if (e.keyCode === 40) {
+      console.log("down", activeIndex.current, sortedDataLength.current);
+      activeIndex.current = activeIndex.current + 1;
+      if (activeIndex.current == sortedDataLength.current)
+        activeIndex.current = sortedDataLength.current - 1;
+      dispatch(keyPressActiveSelect(activeIndex.current));
     }
-  };
+  }, []); 
 
   useEffect(() => {
     document.addEventListener("keyup", (e) =>
-      scrollChecker(e, activeIndex, sortedData)
+      scrollChecker(e, activeIndex)
     );
     return () =>
       document.removeEventListener("keyup", (e) =>
-        scrollChecker(e, activeIndex, sortedData)
+        scrollChecker(e, activeIndex)
       );
-  }, [sortedData, activeIndex]);
+  }, []);
 
   const hasData = sortedData.length;
   return (

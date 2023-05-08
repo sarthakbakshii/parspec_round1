@@ -8,4 +8,6 @@ Make a Search bar, in which we can search result by name, id , address and other
 - We can select any active search card by hover , click and up and down arrow click. 
 - if we type "all" it will show all results provided by api
 
-DEPLOYMENT : 
+DEPLOYMENT LINK 1: https://parspec-round1.vercel.app/ 
+
+DEPLOYMENT LINK 2: https://parspec-round-1.netlify.app/

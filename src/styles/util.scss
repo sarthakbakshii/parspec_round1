@@ -1,0 +1,33 @@
+.c-pointer {
+  cursor: pointer;
+}
+.o-hidden {
+  overflow: hidden;
+}
+.ox-auto{
+  overflow-x: auto;
+}
+.oy-auto{
+  overflow-y: auto;
+}
+.ox-hidden{
+  overflow-x: hidden;
+}
+.oy-hidden{
+  overflow-y: hidden;
+}
+.bs-bb{
+  box-sizing: border-box;
+}
+.focus:hover{
+   border: 1px solid rgb(144, 144, 144);
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+ input:focus{
+    outline: none;
+}
+
+.item:hover{
+  background-color: rgb(241, 241, 241);
+}

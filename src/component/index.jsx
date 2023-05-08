@@ -1,5 +1,5 @@
 import { FallBack } from "./FallBack";
 import { Logo } from "./Logo";
-import { SearchTopUp } from "./SearchTopUp";
+import { SearchResultPopUp } from "./SearchTopUp";
 
-export { Logo, SearchTopUp, FallBack };
+export { Logo, SearchResultPopUp, FallBack };

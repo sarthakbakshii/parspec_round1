@@ -7,7 +7,7 @@ import {
 } from "../redux/slice/SearchedDataSlice";
 import { Card } from "./Card";
 
-export const SearchTopUp = () => {
+const SearchTopUp = () => {
   const { sortedData, shimmer, active } = useSelector(
     (state) => state.searchedData
   );
@@ -19,41 +19,40 @@ export const SearchTopUp = () => {
 
   const dispatch = useDispatch();
 
-  const onMouseIverHandler = (ele) => {
-    dispatch(mouseOverActiveSelect(ele));
-  };
-  const onclickHandler = (ele) => {
-    dispatch(mouseOverActiveSelect(ele));
-  };
+  const onMouseOverHandler = useCallback(
+    (ele) => {
+      dispatch(mouseOverActiveSelect(ele));
+    },
+    [dispatch]
+  );
+
+  const onclickHandler = useCallback(
+    (ele) => {
+      dispatch(mouseOverActiveSelect(ele));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     setActiveState(active);
   }, [active]);
 
-  const scrollChecker = useCallback((e, sortedData) => {
+  const scrollChecker = useCallback((e) => {
     console.count();
     if (e.keyCode === 38) {
-      console.log(
-        "up",
-        activeIndex.current,
-        sortedDataLength.current
-      );
       activeIndex.current = activeIndex.current - 1;
       if (activeIndex.current == -1) activeIndex.current = 0;
       dispatch(keyPressActiveSelect(activeIndex.current));
     } else if (e.keyCode === 40) {
-      console.log("down", activeIndex.current, sortedDataLength.current);
       activeIndex.current = activeIndex.current + 1;
       if (activeIndex.current == sortedDataLength.current)
         activeIndex.current = sortedDataLength.current - 1;
       dispatch(keyPressActiveSelect(activeIndex.current));
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
-    document.addEventListener("keyup", (e) =>
-      scrollChecker(e, activeIndex)
-    );
+    document.addEventListener("keyup", (e) => scrollChecker(e, activeIndex));
     return () =>
       document.removeEventListener("keyup", (e) =>
         scrollChecker(e, activeIndex)
@@ -71,7 +70,7 @@ export const SearchTopUp = () => {
                 activeState={activeState}
                 i={i}
                 onclickHandler={onclickHandler}
-                onMouseIverHandler={onMouseIverHandler}
+                onMouseIverHandler={onMouseOverHandler}
                 activeIndex={activeIndex}
                 ele={ele}
               />
@@ -84,3 +83,5 @@ export const SearchTopUp = () => {
     </div>
   );
 };
+
+export const SearchResultPopUp = React.memo(SearchTopUp);

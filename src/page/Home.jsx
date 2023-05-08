@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Search, Cross } from "../assets";
 import { Logo, SearchTopUp } from "../component";
 import { searchText } from "../constants";
@@ -10,15 +10,16 @@ import {
   searchData,
 } from "../redux/slice/SearchedDataSlice";
 import { getApiResponse } from "../utils/apiResponse";
+import { SearchResultPopUp } from "../component/SearchTopUp";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const debounceRef = useRef(null);
 
-  const cancelClickHandler = () => setText("");
+  const cancelClickHandler = useCallback(() => setText(""), []); ;
 
-  const inputHandler = (e) => {
+  const inputHandler = useCallback((e) => {
     const { value } = e.target;
     setText(value);
 
@@ -29,7 +30,7 @@ const Home = () => {
       300,
       debounceRef
     );
-  };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -67,7 +68,7 @@ const Home = () => {
             </span>
           )}
         </div>
-        {text && <SearchTopUp cancelClickHandler={cancelClickHandler} />}
+        {text && <SearchResultPopUp cancelClickHandler={cancelClickHandler} />}
       </div>
     </div>
   );

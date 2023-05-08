@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Card = ({
+const CardChild = ({
   activeState,
   i,
   onclickHandler,
@@ -39,3 +39,5 @@ export const Card = ({
     </div>
   );
 };
+
+export const Card = React.memo(CardChild)

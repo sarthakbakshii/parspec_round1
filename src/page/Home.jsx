@@ -4,25 +4,19 @@ import { Logo, SearchTopUp } from "../component";
 import { searchText } from "../constants";
 import { debounceHandler } from "../utils/debounce";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addAllData,
-  mouseOverActiveSelect,
   searchData,
 } from "../redux/slice/SearchedDataSlice";
 import { getApiResponse } from "../utils/apiResponse";
 
 const Home = () => {
-  const { allData, active } = useSelector((state) => state.searchedData);
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const debounceRef = useRef(null);
-console.log(active,"active")
 
-  const cancelClickHandler = () => {
-    setText("");
-    // dispatch(mouseOverActiveSelect(null));
-  };
+  const cancelClickHandler = () => setText("");
 
   const inputHandler = (e) => {
     const { value } = e.target;
@@ -39,9 +33,7 @@ console.log(active,"active")
 
   useEffect(() => {
     (async () => {
-      console.log("not worked");
       const data = await getApiResponse(process.env.REACT_APP_BASE_API);
-      console.log("worked");
       dispatch(addAllData(data));
     })();
   }, []);
@@ -66,7 +58,7 @@ console.log(active,"active")
             autoFocus={true}
             onChange={inputHandler}
           />
-          {(text) && (
+          {text && (
             <span
               className="h-30 flex flex-center flex-middle w-40 ml-5"
               onClick={cancelClickHandler}

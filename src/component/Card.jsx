@@ -8,11 +8,11 @@ const CardChild = ({
   activeIndex,
   ele,
 }) => {
-  const { id, name, address, pincode, items } = ele;
+  const { id, name, address, pincode, items } = ele || {};
   return (
     <div id={id}
       className={` pl-20 pt-5 pb-10 bs-bb item ${
-        activeState.id === id ? "bg-grey-primary" : ""
+        activeState?.id === id ? "bg-grey-primary" : ""
       }`}
       onMouseOver={() => {
         onMouseIverHandler(ele);
@@ -32,7 +32,7 @@ const CardChild = ({
       <div className="fs-12">IP add : {id}</div>
       <div className="fs-12">
         items :
-        {items.map((el) => {
+        {items?.map((el) => {
           return <span> {el}, </span>;
         })}
       </div>
